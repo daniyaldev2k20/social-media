@@ -113,11 +113,13 @@ exports.createUserProfile = catchAsync(async (req, res, next) => {
 });
 
 exports.getUserProfile = catchAsync(async (req, res, next) => {
-  const userProfile = await Profile.findById(req.params.id);
+  const user = await User.findById(req.params.id);
 
-  if (!userProfile) {
+  if (!user) {
     return next(new AppError('User Profile does not exists', 404));
   }
+
+  const userProfile = await User.findById(req.params.id).populate('profile');
 
   res.status(200).json({
     status: 'success',

@@ -56,7 +56,6 @@ const userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Friends',
-        unique: true,
       },
     ],
   },
@@ -70,6 +69,13 @@ const userSchema = new mongoose.Schema(
 // Virtually populating User Posts
 userSchema.virtual('posts', {
   ref: 'Post',
+  foreignField: 'user',
+  localField: '_id',
+});
+
+// Virtually populating User Profile
+userSchema.virtual('profile', {
+  ref: 'Profile',
   foreignField: 'user',
   localField: '_id',
 });

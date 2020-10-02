@@ -4,6 +4,12 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
 exports.createPost = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(new AppError('No user exists with that ID', 404));
+  }
+
   const newPost = await Post.create({
     user: req.user.id,
     post: req.body.post,

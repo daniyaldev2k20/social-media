@@ -4,12 +4,10 @@ const friendsSchema = new mongoose.Schema({
   requester: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users',
-    unique: true,
   },
   recipient: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users',
-    unique: true,
   },
   status: {
     type: Number,

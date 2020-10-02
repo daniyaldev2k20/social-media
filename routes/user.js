@@ -28,8 +28,8 @@ router.patch('/updatePassword', authController.updatePassword);
 router.patch('/updateUser', userController.updateUser);
 
 // User Profile
-router.route('/getProfile/:id').get(userController.getUserProfile);
-router.post('/createUserProfile', userController.createUserProfile);
+router.route('/:id/getProfile/').get(userController.getUserProfile);
+router.post('/:id/createUserProfile', userController.createUserProfile);
 router
   .route('/updateUserProfile/:id')
   .patch(

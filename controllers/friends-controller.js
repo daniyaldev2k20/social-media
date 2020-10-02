@@ -128,7 +128,7 @@ exports.rejectFriendRequest = catchAsync(async (req, res, next) => {
 // 4- check whether recipient is friend of requester
 exports.checkFriends = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id);
-  // const recipientUser = await User.findById(req.body.recipient);
+  const recipientUser = await User.findById(req.body.recipient);
 
   if (!user) {
     return next(new AppError('No user exists with that ID', 404));
@@ -142,7 +142,7 @@ exports.checkFriends = catchAsync(async (req, res, next) => {
         pipeline: [
           {
             $match: {
-              recipient: mongoose.Schema.ObjectId(user),
+              recipient: mongoose.Schema.ObjectId(recipientUser),
               $expr: { $in: ['$_id', '$$friends'] },
             },
           },
