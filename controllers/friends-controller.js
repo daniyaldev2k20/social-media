@@ -8,7 +8,7 @@ const AppError = require('../utils/appError');
 // 1- Friend request
 exports.sendFriendRequest = catchAsync(async (req, res, next) => {
   const userA = await User.findById(req.user.id);
-  const recipientUser = req.body.recipient[1];
+  const recipientUser = req.body.recipient;
   const userB = await User.findById(recipientUser);
 
   if (!userA || !userB) {
@@ -66,46 +66,30 @@ exports.sendFriendRequest = catchAsync(async (req, res, next) => {
 exports.acceptFriendRequest = catchAsync(async (req, res, next) => {
   const userA = await User.findById(req.user.id);
   const recipientUser = req.body.recipient;
-  // console.log(recipientUser);
   const userB = await User.findById(recipientUser);
-  // console.log(userB);
 
   if (!userA || !userB) {
     return next(new AppError('No user exists with that ID', 404));
   }
 
-  const docA = await Friends.findOneAndUpdate(
+  await Friends.findOneAndUpdate(
     { requester: userA, recipient: userB },
     { $set: { status: 3 } }
   );
-  const docB = await Friends.findOneAndUpdate(
+  await Friends.findOneAndUpdate(
     { recipient: userA, requester: userB },
     { $set: { status: 3 } }
   );
 
-  const updateUserA = await User.findOneAndUpdate(
-    { _id: userA },
-    { $push: { friends: docA._id } }
-  );
-
-  const updateUserB = await User.findOneAndUpdate(
-    { _id: userB },
-    { $push: { friends: docB._id } }
-  );
-
   res.status(200).json({
     status: 'success',
-    data: {
-      updateUserA,
-      updateUserB,
-    },
   });
 });
 
 // 3- Reject friend request
 exports.rejectFriendRequest = catchAsync(async (req, res, next) => {
   const userA = await User.findById(req.user.id);
-  const recipientUser = req.body.recipient[1];
+  const recipientUser = req.body.recipient;
   const userB = await User.findById(recipientUser);
 
   if (!userA || !userB) {
@@ -144,13 +128,13 @@ exports.rejectFriendRequest = catchAsync(async (req, res, next) => {
 // 4- check whether recipient is friend of requester
 exports.checkFriends = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id);
-  const recipientUser = await User.findById(req.body.recipient);
+  // const recipientUser = await User.findById(req.body.recipient);
 
-  if (!user || !recipientUser) {
+  if (!user) {
     return next(new AppError('No user exists with that ID', 404));
   }
 
-  const recipient = await User.aggregate([
+  await User.aggregate([
     {
       $lookup: {
         from: Friends.collection.name,
@@ -158,7 +142,7 @@ exports.checkFriends = catchAsync(async (req, res, next) => {
         pipeline: [
           {
             $match: {
-              recipient: mongoose.Schema.ObjectId(recipientUser),
+              recipient: mongoose.Schema.ObjectId(user),
               $expr: { $in: ['$_id', '$$friends'] },
             },
           },
@@ -177,8 +161,6 @@ exports.checkFriends = catchAsync(async (req, res, next) => {
       },
     },
   ]);
-
-  req.body.recipient = recipient;
   next();
 });
 
@@ -190,7 +172,7 @@ exports.getAllFriends = catchAsync(async (req, res, next) => {
     return next(new AppError('No user exists with that ID', 404));
   }
 
-  const friendList = user.populate('friends');
+  const friendList = await user.populate('friends');
 
   res.status(200).json({
     status: 'success',

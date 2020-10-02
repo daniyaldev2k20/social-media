@@ -9,6 +9,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const cors = require('cors');
 const xssProtection = require('x-xss-protection');
 const compression = require('compression');
+const io = require('socket.io');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/error-handler-controller');
@@ -60,15 +61,9 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Test Middleware
-app.use((req, res, next) => {
-  console.log('Hello from the middleware');
-  next();
-});
-
-app.use((req, res, next) => {
-  console.log(req.cookies);
-  req.requestTime = new Date().toISOString();
+// Attaching the socketio instance io to middleware for getting access to io instance in controllers
+app.use(function (req, res, next) {
+  req.io = io;
   next();
 });
 

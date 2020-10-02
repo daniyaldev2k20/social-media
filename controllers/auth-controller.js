@@ -119,39 +119,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
-// //Middleware for rendered pages, no errors!
-// //different from protect middleware as it will run for each and every request on rendered pages
-// exports.isLoggedIn = catchAsync(async (req, res, next) => {
-//   if (req.cookies.jwt) {
-//     try {
-//       //1) Verifies the token
-//       const decoded = await promisify(jwt.verify)(req.cookies.jwt)(
-//         process.env.JWT_SECRET
-//       );
-
-//       //2) Check if user still exists
-//       const currentUser = await User.findById(decoded.id);
-//       if (!currentUser) {
-//         //if user does not exist then move to next middleware
-//         return next();
-//       }
-
-//       //3) Check if user changed password after token (JWT) was issued
-//       //iat stands for issued at in jwt token
-//       if (currentUser.changedPasswordAfter(decoded.iat)) {
-//         return next();
-//       }
-//       //After all checks are passed, there is a logged in user
-//       return next();
-//     } catch (err) {
-//       //go to next middleware because there is no logged in user
-//       return next();
-//     }
-//   }
-//   //if there is no cookie then call the next middleware
-//   return next();
-// });
-
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email
   const user = await User.findOne({ email: req.body.email });

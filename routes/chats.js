@@ -1,9 +1,14 @@
-// const express = require('express');
-// const authController = require('../controllers/auth-controller');
+const express = require('express');
+const authController = require('../controllers/auth-controller');
+const chatsController = require('../controllers/chats-controller');
 
-// const router = express.Router();
+const router = express.Router();
 
-// // router.get('/chats');
-// router.post('/chats', authController.isLoggedIn);
+router.post('/chat', authController.protect, chatsController.startChat);
+router.post(
+  '/groupChat',
+  authController.protect,
+  chatsController.startGroupChat
+);
 
-// module.exports = router;
+module.exports = router;

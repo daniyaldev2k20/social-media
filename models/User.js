@@ -52,6 +52,13 @@ const userSchema = new mongoose.Schema(
       default: true,
       select: false,
     },
+    friends: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Friends',
+        unique: true,
+      },
+    ],
   },
   {
     //Each time the data is outputted as JSON/Object then virtuals will be true
@@ -63,13 +70,6 @@ const userSchema = new mongoose.Schema(
 // Virtually populating User Posts
 userSchema.virtual('posts', {
   ref: 'Post',
-  foreignField: 'user',
-  localField: '_id',
-});
-
-// Virtually populating User Posts
-userSchema.virtual('friends', {
-  ref: 'Friends',
   foreignField: 'user',
   localField: '_id',
 });

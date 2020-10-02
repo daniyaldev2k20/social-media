@@ -11,7 +11,7 @@ process.on('uncaughtException', (err) => {
 
 dotenv.config({ path: './config.env' });
 const app = require('./app');
-const chatsController = require('./controllers/chats-controller');
+const { connectedUsers } = require('./utils/socket/ connectedUsers');
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -37,6 +37,14 @@ const server = app.listen(port, () => {
 
 const io = socketio(server);
 
+// Listening for incoming sockets on connection event, and saving clientSocket in connectedUsers
+io.on('connection', (clientSocket) => {
+  clientSocket.on('messageToServer', (dataFromClient) => {
+    connectedUsers[dataFromClient.userName] = clientSocket;
+  });
+  console.log(`A user has connected${clientSocket.id}`);
+});
+
 //process is an instance of EventEmitter and will handle all unhandled promises in NodeJS
 //this is used for asynchronous code; Promises
 process.on('unhandledRejection', (err) => {
@@ -46,5 +54,3 @@ process.on('unhandledRejection', (err) => {
     process.exit(1); //1 stands for uncaught exception
   });
 });
-
-module.exports = io;
