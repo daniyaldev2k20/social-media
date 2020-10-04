@@ -25,7 +25,7 @@ exports.sendMessageToClient = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.startGroupChat = catchAsync(async (req, res, next) => {
+exports.getMessages = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   if (!user) {
     return next(new AppError('User does not exists by that ID', 404));
