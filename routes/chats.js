@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.use(authController.protect);
 
-router.post('/chat', chatsController.startChat);
+router.post('/sendMessage', chatsController.sendMessageToClient);
 router.post('/groupChat', chatsController.startGroupChat);
 
 module.exports = router;
