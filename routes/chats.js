@@ -4,11 +4,9 @@ const chatsController = require('../controllers/chats-controller');
 
 const router = express.Router();
 
-router.post('/chat', authController.protect, chatsController.startChat);
-router.post(
-  '/groupChat',
-  authController.protect,
-  chatsController.startGroupChat
-);
+router.use(authController.protect);
+
+router.post('/chat', chatsController.startChat);
+router.post('/groupChat', chatsController.startGroupChat);
 
 module.exports = router;

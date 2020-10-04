@@ -42,7 +42,6 @@ io.on('connection', (clientSocket) => {
   clientSocket.on('messageToServer', (dataFromClient) => {
     connectedUsers[dataFromClient.userName] = clientSocket;
   });
-  console.log(`A user has connected${clientSocket.id}`);
 });
 
 //process is an instance of EventEmitter and will handle all unhandled promises in NodeJS
