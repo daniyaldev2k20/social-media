@@ -172,7 +172,7 @@ exports.getAllFriends = catchAsync(async (req, res, next) => {
     return next(new AppError('No user exists with that ID', 404));
   }
 
-  const friendList = await user.populate('friends');
+  const friendList = await User.findById(req.params.id).populate('friends');
 
   res.status(200).json({
     status: 'success',

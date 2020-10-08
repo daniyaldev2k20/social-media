@@ -1,4 +1,3 @@
-const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -13,7 +12,7 @@ const compression = require('compression');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/error-handler-controller');
 const userRouter = require('./routes/user');
-const homeRouter = require('./routes/home');
+const chatRouter = require('./routes/chats');
 
 const app = express();
 
@@ -25,9 +24,6 @@ const limit = rateLimit({
 
 // Global Middlewares
 app.use('/api', limit);
-
-//Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   express.json({
@@ -61,7 +57,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Routes
-app.use('/api/v1/home', homeRouter);
 app.use('/api/v1/users', userRouter);
 
 //Route for all * (get, post, etc) and this middleware runs when the previous routes do
