@@ -10,19 +10,19 @@ exports.sendMessageToClient = catchAsync(async (req, res, next) => {
     return next(new AppError('User does not exists by that ID', 404));
   }
 
-  const message = formatMessage(req.body.msg);
+  // const message = formatMessage(req.body.msg);
 
-  await Chats.create({
-    user,
-    message,
-  });
+  // await Chats.create({
+  //   user,
+  //   message,
+  // });
 
-  req.io.emit('messageToClient', message);
+  // req.io.emit('messageToClient', message);
 
-  res.status(201).json({
-    status: 'success',
-    data: message,
-  });
+  // res.status(201).json({
+  //   status: 'success',
+  //   data: message,
+  // });
 });
 
 exports.getMessages = catchAsync(async (req, res, next) => {

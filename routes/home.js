@@ -1,11 +1,9 @@
 const express = require('express');
 
-const homeController = require('../controllers/home-controller');
+const authController = require('../controllers/auth-controller');
 
 const router = express.Router();
 
-router.get('/', homeController.getHomePage);
-
-router.get('/:id', homeController.getUserProfile);
+router.post('/', authController.login);
 
 module.exports = router;

@@ -53,6 +53,6 @@ router.use('/:id/posts', postRouter);
 router.use('/:id/friends', friendsRouter);
 
 // User Chats
-router.use('/:id/chat', chatsRouter);
+router.use('/chat', chatsRouter);
 
 module.exports = router;
