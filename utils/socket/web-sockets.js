@@ -5,6 +5,7 @@ class WebSockets {
   }
 
   connection(clientSocket) {
+    console.log('Client side socket connection testing');
     // add identity of user mapped to the socket id
     clientSocket.on('identity', (userId) => {
       this.users.push({

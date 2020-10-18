@@ -23,9 +23,9 @@ html
                 form
                   .field.has-addons
                     p.control
-                      input(type='text', class='input', value='Chuck Norris', id='name')
+                      input(type='text', class='input', value=`${user.name}`, id='name')
                     p.control.is-expanded
-                      input(type='text', class='input', placeholder='Try to say something', id='message')
+                      input(type='text', class='input', placeholder='Say something', id='message')
                     p.control
                       input(type='submit', class='button is-success', value='Post')
         footer

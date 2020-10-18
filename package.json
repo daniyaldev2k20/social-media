@@ -4,7 +4,8 @@
   "description": "Social media app clone for users to interact with each other",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "Daniyal Talat",
   "license": "MIT",
