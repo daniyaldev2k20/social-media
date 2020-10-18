@@ -116,6 +116,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   //4) Grant access to protected routes; this next() calls the next middleware; route handler
   req.user = currentUser;
+  res.locals.user = currentUser;
   next();
 });
 
@@ -207,3 +208,37 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   createSendToken(user, 201, req, res);
 });
+
+exports.isLoggedIn = async (req, res, next) => {
+  if (req.cookies.jwt) {
+    try {
+      //1) Verifies the token
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET
+      );
+
+      //2) Check if user still exists
+      const currentUser = await User.findById(decoded.id);
+      if (!currentUser) {
+        //if user does not exist then move to next middleware
+        return next();
+      }
+
+      //3) Check if user changed password after token (JWT) was issued
+      if (currentUser.changedPasswordAfter(decoded.iat)) {
+        return next();
+      }
+
+      //After all checks are passed, there is a logged in user
+      //this makes any variable like user accessible to pug templates
+      res.locals.user = currentUser; //each pug template has access to response.locals
+      return next();
+    } catch (err) {
+      //go to next middleware because there is no logged in user
+      return next();
+    }
+  }
+  //if there is no cookie then call the next middleware
+  return next();
+};
