@@ -4,7 +4,6 @@ const authController = require('../controllers/auth-controller');
 
 const router = express.Router();
 
-//Rendering pug templates
 router.get('/', authController.isLoggedIn, homePageController.getHomePage);
 
 router.get(
