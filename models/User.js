@@ -58,22 +58,21 @@ const userSchema = new mongoose.Schema(
         ref: 'Friends',
       },
     ],
-  },
-  {
-    //Each time the data is outputted as JSON/Object then virtuals will be true
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
   }
+  // {
+  //   //Each time the data is outputted as JSON/Object then virtuals will be true
+  //   toJSON: { virtuals: true },
+  //   toObject: { virtuals: true },
+  // }
 );
 
-// Virtually populating User Profile
-userSchema.virtual('profile', {
-  ref: 'Profile',
-  foreignField: 'user',
-  localField: '_id',
-});
+// // Virtually populating User Profile
+// userSchema.virtual('profile', {
+//   ref: 'Profile',
+//   foreignField: 'user',
+//   localField: '_id',
+// });
 
-//Mongoose Middleware (Document)
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
@@ -87,40 +86,33 @@ userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) {
     return next();
   }
-  //For saving 1 second in past
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
 
-//query middleware finds the document
-//with active set to true, before queries like find is used
 userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
 });
 
-//Schema instance methods
 userSchema.methods.correctPassword = async function (candidate, user) {
   return await bcrypt.compare(candidate, user);
 };
 
-//JWTTimestamp means the time when JWT token was issued
 userSchema.methods.changedPasswordAfter = function (JWTTimeStamp) {
   if (this.passwordChangedAt) {
     const changedTimeStamp = parseInt(
       this.passwordChangedAt.getTime() / 100,
       10
     );
-    //Password changed after token was issued 100 < 200 for example
+
     return JWTTimeStamp < changedTimeStamp;
   }
-  //FALSE means not changed, user password has not been changed
+
   return false;
 };
 
 userSchema.methods.createPasswordResetToken = function () {
-  //this token is created to grant user a temp token so that user can use to create real password
-  //only this user will have access to this password
   const resetToken = crypto.randomBytes(32).toString('hex');
 
   this.passwordResetToken = crypto
