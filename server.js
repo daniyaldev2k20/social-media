@@ -11,7 +11,6 @@ process.on('uncaughtException', (err) => {
 
 dotenv.config({ path: './config.env' });
 const app = require('./app');
-const WebSockets = require('./utils/socket/web-sockets');
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -36,10 +35,10 @@ const server = app.listen(port, () => {
 });
 
 const io = socketio(server);
-const webSockets = new WebSockets(io);
 
-// Listening for incoming sockets on connection event, and saving clientSocket in connectedUsers
-io.on('connection', webSockets.connection);
+io.on('connection', (socket) => {
+  console.log(`Socket connected ${socket.id}`);
+});
 
 // Attaching the socketio instance io to middleware for getting access to io instance in controllers
 app.use(function (req, res, next) {
