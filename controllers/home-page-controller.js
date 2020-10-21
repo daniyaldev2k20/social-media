@@ -17,9 +17,3 @@ exports.getSignUpForm = (req, res) => {
     title: 'Create your account',
   });
 };
-
-exports.getChatPage = (req, res) => {
-  res.status(200).render('chatPage', {
-    title: 'Start chat',
-  });
-};

@@ -4,29 +4,27 @@ class WebSockets {
     this.users = [];
   }
 
-  connection(clientSocket) {
+  connection(client) {
     console.log('Client side socket connection testing');
-    // add identity of user mapped to the socket id
-    clientSocket.on('identity', (userId) => {
+    // add user-identity of user mapped to the socket id
+    client.on('user-identity', (userId) => {
       this.users.push({
-        socketId: clientSocket.id,
+        socketId: client.id,
         userId: userId,
       });
     });
     // add new person to chat room
-    clientSocket.on('subscribe', (room, newUserId = '') => {
+    client.on('subscribe', (room, newUserId = '') => {
       this.addNewUser(room, newUserId);
-      clientSocket.join(room);
+      client.join(room);
     });
     // mute a chat room
-    clientSocket.on('unsubscribe', (room) => {
-      clientSocket.leave(room);
+    client.on('unsubscribe', (room) => {
+      client.leave(room);
     });
     // disconnect event removes user based on his socketId from users
-    clientSocket.on('disconnect', () => {
-      this.users = this.users.filter(
-        (user) => user.socketId !== clientSocket.id
-      );
+    client.on('disconnect', () => {
+      this.users = this.users.filter((user) => user.socketId !== client.id);
     });
   }
 

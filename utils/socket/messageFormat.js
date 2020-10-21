@@ -1,10 +1,10 @@
 const moment = require('moment');
 
-function formatMessage(text) {
+function messageFormat(text) {
   return {
     text,
     time: moment().format('h:mm a'),
   };
 }
 
-module.exports = formatMessage;
+module.exports = messageFormat;
