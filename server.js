@@ -36,11 +36,7 @@ const server = app.listen(port, () => {
 
 const io = socketio(server);
 
-io.on('connection', (socket) => {
-  console.log(`Socket connected ${socket.id}`);
-});
-
-// Attaching the socketio instance io to middleware for getting access to io instance in controllers
+// Attaching the socket.io instance io to middleware for getting access to io instance in controllers
 app.use(function (req, res, next) {
   req.io = io;
   console.log('Socketio server running on express app middleware');

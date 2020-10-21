@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.use(authController.protect);
 
-router.get('/sendMessage', chatsController.sendMessage);
+router.get('/startChat', chatsController.startChat);
 
 module.exports = router;
