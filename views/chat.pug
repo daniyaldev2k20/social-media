@@ -33,16 +33,5 @@ html
             .container
               .content
           script.
-            const socket = io();
-            $('form').submit(function() {
-              const name = $('#name').val();
-              const msg = $('#msg').val();
-
-              socket.emit('message', `${name} : ${msg}`);
-              $('#msg').val('');
-              return false; 
-            });
-
-            socket.on('messageFromServer', function(msg) {
-              $('#chat-msgs').append($('<li>').text(msg));
-            }); 
+            script(src='/socket.io/socket.io.js')
+            script(src='/js/bundle.js')
