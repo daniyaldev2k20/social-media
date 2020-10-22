@@ -1,9 +1,7 @@
 /* eslint-disable*/
 import '@babel/polyfill';
-const socket = io();
 import { login, logout } from './login';
 import { signup } from './signup';
-import { sendMessage } from './socketRequest';
 import { showAlert } from './alerts';
 
 const loginForm = document.querySelector('.form--login'); //checks for login/signup form element
@@ -39,16 +37,4 @@ const alertMessage = document.querySelector('body').dataset.alert;
 
 if (alertMessage) {
   showAlert('success', alertMessage, 20);
-}
-
-//Socket.io Section
-const chatForm = document.querySelector('.field.has-addons');
-
-if (chatForm) {
-  e.preventDefault();
-  sendMessage();
-  const userName = document.getElementById('name');
-  const text = document.getElementById('msg');
-
-  socket.emit('message', { userName, text });
 }
