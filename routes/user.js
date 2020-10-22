@@ -4,7 +4,6 @@ const userController = require('../controllers/user-controller');
 const authController = require('../controllers/auth-controller');
 const postRouter = require('./posts');
 const friendsRouter = require('./friends');
-const chatsRouter = require('./chats');
 
 const router = express.Router();
 
@@ -51,8 +50,5 @@ router.use('/:id/posts', postRouter);
 
 // User Friends
 router.use('/:id/friends', friendsRouter);
-
-// User Chats
-router.use('/chat', chatsRouter);
 
 module.exports = router;
