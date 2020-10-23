@@ -41,7 +41,7 @@ router.route('/deactivateMe/:id').delete(userController.deactivateProfile);
 
 router.route('/').get(userController.getAllUsers);
 
-router.route('/chat').get(chatsController.startChat);
+// router.route('/chat').get(chatsController.startChat);
 
 router
   .route('/:id')

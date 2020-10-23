@@ -18,6 +18,4 @@ router.get(
   homePageController.getSignUpForm
 );
 
-router.get('/chat', authController.isLoggedIn, homePageController.getChatPage);
-
 module.exports = router;

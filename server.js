@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const socketio = require('socket.io');
+// const socketio = require('socket.io');
 
 //for uncaught exceptions like x is not defined; used for synchronous code in NodeJS
 process.on('uncaughtException', (err) => {
@@ -34,14 +34,7 @@ const server = app.listen(port, () => {
   console.log(`App running on port ${port}`);
 });
 
-const io = socketio(server);
-
-// Attaching the socket.io instance io to middleware for getting access to io instance in controllers
-app.use(function (req, res, next) {
-  req.io = io;
-  console.log('Socketio server running on express app middleware');
-  next();
-});
+// const io = socketio(server);
 
 //process is an instance of EventEmitter and will handle all unhandled promises in NodeJS
 //this is used for asynchronous code; Promises
