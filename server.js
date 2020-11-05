@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-// const socketio = require('socket.io');
 
 //for uncaught exceptions like x is not defined; used for synchronous code in NodeJS
 process.on('uncaughtException', (err) => {
@@ -10,7 +9,7 @@ process.on('uncaughtException', (err) => {
 });
 
 dotenv.config({ path: './config.env' });
-const app = require('./app');
+const server = require('./app');
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -30,11 +29,9 @@ mongoose
 
 const port = process.env.PORT || 3000;
 
-const server = app.listen(port, () => {
+server.listen(port, () => {
   console.log(`App running on port ${port}`);
 });
-
-// const io = socketio(server);
 
 //process is an instance of EventEmitter and will handle all unhandled promises in NodeJS
 //this is used for asynchronous code; Promises

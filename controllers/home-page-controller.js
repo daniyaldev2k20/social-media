@@ -17,3 +17,9 @@ exports.getSignUpForm = (req, res) => {
     title: 'Create your account',
   });
 };
+
+exports.getChatFeature = (req, res) => {
+  res.status(200).render('chat', {
+    title: 'Chat Feature',
+  });
+};

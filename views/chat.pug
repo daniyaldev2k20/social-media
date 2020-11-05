@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.2/css/bulma.css')
+    link(rel='stylesheet', href='css/chat.css')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+  body
+    #chat-app
+      #chat.has-text-centered
+        section.hero.is-success
+          .hero-body
+            .container
+              h2 Chat Feature
+        section.section.chat-container
+          if user
+            .container
+              .columns
+                .box.column.is-8.is-offset-2
+                  h2.title Chatbox
+                  .chat-messages.has-text-left
+                    ul#chat-messages
+                  form
+                    .field.has-addons
+                      p.control
+                        input(type='text', class='input', value=`${user.name}`, id='name')
+                      p.control.is-expanded
+                        input(type='text', class='input', placeholder=`${user.message}`, id='message')
+                      p.control
+                        input(type='submit', class='button is-success', value='Post') 
+         
+    // FOOTER
+    include _footer
