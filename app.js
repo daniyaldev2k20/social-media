@@ -57,6 +57,11 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(function (req, res, next) {
+  req.io = io;
+  next();
+});
+
 // Routes
 app.use('/', homeRouter);
 app.use('/api/v1/users', userRouter);
@@ -70,10 +75,5 @@ app.use(globalErrorHandler);
 
 const server = http.createServer(app);
 io.listen(server);
-
-app.use(function (req, res, next) {
-  req.io = io;
-  next();
-});
 
 module.exports = server;

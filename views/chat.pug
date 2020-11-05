@@ -1,33 +1,31 @@
 doctype html
-html
+html(lang='en')
   head
-    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.2/css/bulma.css')
-    link(rel='stylesheet', href='css/chat.css')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css' integrity='sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=' crossorigin='anonymous')
+    link(rel='stylesheet' href='css/chat.css')
+    title Social Media Chat API
   body
-    #chat-app
-      #chat.has-text-centered
-        section.hero.is-success
-          .hero-body
-            .container
-              h2 Chat Feature
-        section.section.chat-container
-          if user
-            .container
-              .columns
-                .box.column.is-8.is-offset-2
-                  h2.title Chatbox
-                  .chat-messages.has-text-left
-                    ul#chat-messages
-                  form
-                    .field.has-addons
-                      p.control
-                        input(type='text', class='input', value=`${user.name}`, id='name')
-                      p.control.is-expanded
-                        input(type='text', class='input', placeholder=`${user.message}`, id='message')
-                      p.control
-                        input(type='submit', class='button is-success', value='Post') 
-         
-    // FOOTER
-    include _footer
+    .chat-container
+      header.chat-header
+        h1
+          i.fas.fa-smile
+          |  Social Media Chat
+        a.btn(href='/') Leave Chat
+      main.chat-main
+        .chat-sidebar
+          h3
+            i.fas.fa-users
+            |  Users
+          ul#users
+        .chat-messages
+      .chat-form-container
+        form#chat-form
+          input#msg(type='text' placeholder='Enter Message' required='' autocomplete='off')
+          button.btn
+            i.fas.fa-paper-plane
+            |  Send
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js' integrity='sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=' crossorigin='anonymous')
+    script(src='/socket.io/socket.io.js')
+    script(src='js/main.js')
