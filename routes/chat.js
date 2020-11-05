@@ -1,11 +1,11 @@
-// const express = require('express');
-// const authController = require('../controllers/auth-controller');
-// const chatsController = require('../controllers/chats-controller');
+const express = require('express');
+const authController = require('../controllers/auth-controller');
+const chatsController = require('../controllers/chats-controller');
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.use(authController.protect);
+router.use(authController.protect);
 
-// router.post('/', chatsController.startChat);
+router.get('/start-chat', chatsController.startChat);
 
-// module.exports = router;
+module.exports = router;
