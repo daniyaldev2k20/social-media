@@ -1,5 +1,4 @@
 const path = require('path');
-const http = require('http');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -7,15 +6,16 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-const io = require('socket.io');
+
+const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/error-handler-controller');
 const userRouter = require('./routes/user');
 const homeRouter = require('./routes/home');
-const chatRouter = require('./routes/chat');
-
-const app = express();
+const chatsController = require('./controllers/chats-controller');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -58,15 +58,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(function (req, res, next) {
-  req.io = io;
-  next();
-});
-
 // Routes
 app.use('/', homeRouter);
 app.use('/api/v1/users', userRouter);
-app.use('/api/v1/chat', chatRouter);
+
+io.on('connection', chatsController.startChat);
 
 app.use('*', (req, res, next) => {
   next(new AppError(`Cant find ${req.originalUrl} on this server`, 404));
@@ -75,7 +71,6 @@ app.use('*', (req, res, next) => {
 //Error handling middleware
 app.use(globalErrorHandler);
 
-const server = http.createServer(app);
-io.listen(server);
+const server = http;
 
 module.exports = server;
