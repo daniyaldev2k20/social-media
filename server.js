@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+// eslint-disable-next-line import/order
+const app = require('./app');
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 
 //for uncaught exceptions like x is not defined; used for synchronous code in NodeJS
 process.on('uncaughtException', (err) => {
@@ -9,7 +13,7 @@ process.on('uncaughtException', (err) => {
 });
 
 dotenv.config({ path: './config.env' });
-const server = require('./app');
+const chatsController = require('./controllers/chats-controller')(io);
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -29,8 +33,8 @@ mongoose
 
 const port = process.env.PORT || 3000;
 
-server.listen(port, () => {
-  console.log(`App running on port ${port}`);
+http.listen(port, () => {
+  console.log(`App running on port ${port}...`);
 });
 
 //process is an instance of EventEmitter and will handle all unhandled promises in NodeJS

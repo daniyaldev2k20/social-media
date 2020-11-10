@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 
 const MessageSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
   message: {
     type: String,
     required: true,

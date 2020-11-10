@@ -7,15 +7,12 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 
-const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
-
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/error-handler-controller');
 const userRouter = require('./routes/user');
 const homeRouter = require('./routes/home');
-const chatsController = require('./controllers/chats-controller');
+
+const app = express();
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -62,8 +59,6 @@ app.use((req, res, next) => {
 app.use('/', homeRouter);
 app.use('/api/v1/users', userRouter);
 
-io.on('connection', chatsController.startChat);
-
 app.use('*', (req, res, next) => {
   next(new AppError(`Cant find ${req.originalUrl} on this server`, 404));
 });
@@ -71,6 +66,4 @@ app.use('*', (req, res, next) => {
 //Error handling middleware
 app.use(globalErrorHandler);
 
-const server = http;
-
-module.exports = server;
+module.exports = app;

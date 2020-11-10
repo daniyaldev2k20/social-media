@@ -1,4 +1,3 @@
-const User = require('../models/User');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getHomePage = catchAsync(async (req, res) => {
@@ -20,10 +19,7 @@ exports.getSignUpForm = (req, res) => {
 };
 
 exports.getChatFeature = catchAsync(async (req, res) => {
-  // const user = await User.findById(req.user.id);
-
   res.status(200).render('chat', {
     title: 'Chat Feature',
-    // user,
   });
 });
