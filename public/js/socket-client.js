@@ -36,5 +36,5 @@ chatForm.addEventListener('submit', (e) => {
 
 // Output message to DOM
 function outputMessage(message) {
-  $('#chat-messages').append($('<li>').text(message));
+  $('#chat-messages-display').append($('<li>').text(message));
 }

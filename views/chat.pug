@@ -20,13 +20,15 @@ html(lang='en')
             |  Users
           ul#users= `${user.name}`
         .chat-messages
+         ul#chat-messages-display
       .chat-form-container
         form#chat-form
           input#msg(type='text' placeholder='Enter Message' required='' autocomplete='off')
           button.btn
             i.fas.fa-paper-plane
             |  Send
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js' integrity='sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=' crossorigin='anonymous')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js' 
+    integrity='sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=' crossorigin='anonymous')
+    script(src='https://code.jquery.com/jquery-3.2.1.min.js')
     script(src='/socket.io/socket.io.js')
     script(src='js/socket-client.js')
