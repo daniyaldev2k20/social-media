@@ -1,5 +1,10 @@
 # social-media
-NodeJS backend APIS for Social Media 
+NodeJS backend APIS for Social Media  
+# features  
+- Friend request/add   
+- User management with JWT  
+- User posts and profile  
+- User chat  
 
 # How to Run?
 1- run npm install  
